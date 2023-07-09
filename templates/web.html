@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <title>sentiment analysis</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+  </style>
+  <script>
+    const checkSentenceResponse = async () => {
+      const response_destination = document.querySelector("#sentence_result");
+
+      fetch('/status.json').then(response => {
+        return response.json();
+      }).then(response_json => {
+        const results = [];
+        for (const model_response of response_json) {
+          const query = document.createElement("div");
+          query.classList.add("user_message");
+          query.innerText = model_response.user_message;
+          results.push(query);
+
+          const response = document.createElement("div");
+          query.classList.add("model_response");
+          response.innerText = model_response.model_response;
+          results.push(response);
+        }
+        for (const result of results) {
+          response_destination.appendChild(result);
+        }
+      });
+
+    }
+    const checkParagraphResponse = async () => {
+      const response_destination = document.querySelector("#paragraph_result");
+
+      fetch('/status.json').then(response => {
+        return response.json();
+      }).then(response_json => {
+        const results = [];
+        for (const model_response of response_json) {
+          const query = document.createElement("div");
+          query.classList.add("user_message");
+          query.innerText = model_response.user_message;
+          results.push(query);
+
+          const response = document.createElement("div");
+          query.classList.add("model_response");
+          response.innerText = model_response.model_response;
+          results.push(response);
+        }
+        for (const result of results) {
+          response_destination.appendChild(result);
+        }
+      });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Hi Behrooz!</h1>
+  </header>
+  <main>
+    <p><strong>The sentiment analysis app has been launched.</strong></p>
+    <hr class="rounded">
+    <hr class="dotted">
+
+    <form action="{{ url_for('Prediction1')}}" method="post">
+      <label for="height">Please enter a sentence and then receive an opinion mining based on natural language processing technique:</label><br />
+      <input type="text" id="height" name="input1" placeholder="" /><br />
+      <button type="submit">Submit</button>
+    </form>
+    <button id="check_sentence_response" onClick="checkSentenceResponse()">Check Sentence Response</button>
+
+    <div id="sentence_result">{{result}}</div>
+    
+    <hr class="dotted">
+
+    <form action="{{ url_for('Prediction2')}}" method="post">
+      <label for="height2">Please enter a paragraph and then receive a summary:</label><br />
+      <input type="text" id="height2" name="input2" placeholder="" /><br />
+      <button type="submit">Submit</button>
+    </form>
+
+    <button id="check_paragraph_response" onClick="checkParagraphResponse()">Check Paragraph Response</button>
+
+    <div id="paragraph_result">{{result}}</div>
+    <hr class="solid"> 
+
+    
+  </main>
+</body>
+</html>
